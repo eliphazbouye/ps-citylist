@@ -1,5 +1,5 @@
-your_route_name:
-  path: city
+city:
+  path: city/demo
   methods: [GET]
   defaults:
     _controller: 'Tntrunkscity\Controller\TntrunkscityController::demoAction'
