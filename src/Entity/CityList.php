@@ -1,6 +1,6 @@
 <?php
 
-namespace Tntrunkscity\YourModule\Entity;
+namespace Tntrunkscity\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,7 +35,7 @@ class CityList
     private $cityName;
 
     /**
-     * @var string
+     * @var boolean
      *
      * @ORM\Column(name="active", type="boolean")
      */
@@ -90,6 +90,27 @@ class CityList
 
         return $this;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param boolean $active
+     *
+     * @return CityList
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
 
     /**
      * @return array
