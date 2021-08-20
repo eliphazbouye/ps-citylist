@@ -26,9 +26,9 @@ city_delete:
     _controller: 'Tntrunkscity\Controller\TntrunkscityController::deleteAction'
     # _disable_module_prefix: true
 
-city_edit:
-  path: city/edit
+city_update:
+  path: city/update/{id}
   methods: [GET, POST]
   defaults:
-    _controller: 'Tntrunkscity\Controller\TntrunkscityController::editAction'
+    _controller: 'Tntrunkscity\Controller\TntrunkscityController::updateAction'
     # _disable_module_prefix: true

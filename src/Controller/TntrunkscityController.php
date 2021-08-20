@@ -34,13 +34,20 @@ class TntrunkscityController extends FrameworkBundleAdminController
             //Prepare the objet will be saved to the DB
             $cityList = new CityList();
 
-            $cityList->setCountryId($form->get('id_country')->getData());
-            $cityList->setCityName($form->get('city_name')->getData());
+            $cityList->setCountryId($form->get('countryId')->getData());
+            $cityList->setCityName($form->get('cityName')->getData());
             $cityList->setActive($form->get('active')->getData());
 
             //persiste the data on database
             $em->persist($cityList);
             $em->flush();
+
+            $this->addFlash(
+                'notice',
+                'City saved!'
+            );
+
+            return $this->redirectToRoute('city_list', array(), 301);
         }
 
 
@@ -71,6 +78,48 @@ class TntrunkscityController extends FrameworkBundleAdminController
         }
         $em->flush();
 
+        $this->addFlash(
+            'notice',
+            'City deleted!'
+        );
+
         return $this->redirectToRoute('city_list', array(), 301);
+    }
+
+    public function updateAction(int $id, Request $request)
+    {
+
+        if ($id === null) {
+            return null;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $cityForUpdate = $em->getRepository(CityList::class)
+            ->find($id);
+
+        $form = $this->createForm(CityType::class, $cityForUpdate);
+        $form->handleRequest($request);
+
+        if (
+            $form->isSubmitted() &&
+            $form->isValid()
+        ) {
+
+            $cityForUpdate->setCountryId($form->get('countryId')->getData());
+            $cityForUpdate->setCityName($form->get('cityName')->getData());
+            $cityForUpdate->setActive($form->get('active')->getData());
+
+            $em->flush();
+
+
+            $this->addFlash(
+                'notice',
+                'City updated!'
+            );
+        }
+        return $this->render('@Modules/tntrunkscity/templates/admin/edit.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 }

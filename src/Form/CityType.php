@@ -35,13 +35,13 @@ class CityType extends AbstractType
         }
 
         return $builder
-            ->add('city_name', TextType::class, array(
+            ->add('cityName', TextType::class, array(
                 "label" => "City name",
                 "attr" => array(
                     "placeholder" => "The city name"
                 )
             ))
-            ->add('id_country', ChoiceType::class, array(
+            ->add('countryId', ChoiceType::class, array(
                 "label" => "Choose country",
                 "choices" => $citys
             ))
