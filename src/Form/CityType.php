@@ -41,13 +41,13 @@ class CityType extends AbstractType
                     "placeholder" => "The city name"
                 )
             ))
-            ->add('country', ChoiceType::class, array(
+            ->add('id_country', ChoiceType::class, array(
                 "label" => "Choose country",
                 "choices" => $citys
             ))
             ->add('active', CheckboxType::class, array(
                 "label" => "Active",
-                "required" => true
+                "required" => false
             ))
             ->add('save', SubmitType::class);
     }

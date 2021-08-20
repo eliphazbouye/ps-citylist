@@ -30,13 +30,12 @@ class TntrunkscityController extends FrameworkBundleAdminController
             //Logic for store the data in DB
             $em = $this->getDoctrine()->getManager();
 
-            dump($form->getData());
             //Prepare the objet will be saved to the DB
             $cityList = new CityList();
 
-            $cityList->setCountryId(33);
-            $cityList->setCityName('Assinie');
-            $cityList->setActive(1);
+            $cityList->setCountryId($form->get('id_country')->getData());
+            $cityList->setCityName($form->get('city_name')->getData());
+            $cityList->setActive($form->get('active')->getData());
 
             //persiste the data on database
             $em->persist($cityList);
