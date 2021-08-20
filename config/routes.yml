@@ -1,0 +1,6 @@
+your_route_name:
+  path: city
+  methods: [GET]
+  defaults:
+    _controller: 'Tntrunkscity\Controller\TntrunkscityController::demoAction'
+    _disable_module_prefix: true

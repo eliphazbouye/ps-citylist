@@ -1,0 +1,13 @@
+{
+    "name": "tntrunks/tntrunkscity",
+    "description": "Use for display city list on checkout section",
+    "autoload": {
+      "psr-4": {
+        "Tntrunkscity\\": "src/"
+      }
+    },
+    "config": {
+        "prepend-autoloader": false
+    },
+    "type": "prestashop-module"
+}
