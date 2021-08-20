@@ -11,3 +11,10 @@ city_create:
   defaults:
     _controller: 'Tntrunkscity\Controller\TntrunkscityController::createAction'
     # _disable_module_prefix: true
+
+city_list:
+  path: city/list
+  methods: [GET]
+  defaults:
+    _controller: 'Tntrunkscity\Controller\TntrunkscityController::listAction'
+    # _disable_module_prefix: true

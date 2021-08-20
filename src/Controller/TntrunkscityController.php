@@ -47,4 +47,16 @@ class TntrunkscityController extends FrameworkBundleAdminController
             'form' => $form->createView()
         ));
     }
+
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $data = $em->getRepository(CityList::class)->findAll();
+
+        dump($data);
+        return $this->render('@Modules/tntrunkscity/templates/admin/list.html.twig', array(
+            'data' => $data
+        ));
+    }
 }

@@ -1,0 +1,27 @@
+{% extends "PrestaShopBundle:Admin:layout.html.twig" %}
+
+{% block content %}
+
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>City Name</th>
+				<th>Country Name</th>
+				<th>Active</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for city in data %}
+
+				<tr>
+					<th scope="row">{{ city.id }}</th>
+					<td>{{ city.cityName }}</td>
+					<td>{{ city.countryId }}</td>
+					<td>{{ city.active == 1 ? 'Active' : 'Non-Active' }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</tr>
+</tbody></table>{% endblock %}
