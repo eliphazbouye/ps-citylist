@@ -2,6 +2,7 @@
 
 namespace Tntrunkscity\Controller;
 
+use GuzzleHttp\Subscriber\Redirect;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
@@ -54,9 +55,22 @@ class TntrunkscityController extends FrameworkBundleAdminController
 
         $data = $em->getRepository(CityList::class)->findAll();
 
-        dump($data);
         return $this->render('@Modules/tntrunkscity/templates/admin/list.html.twig', array(
             'data' => $data
         ));
+    }
+
+    public function deleteAction(int $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $city = $em->getRepository(CityList::class)->findOneBy(array('id' => $id));
+
+        if ($city) {
+            $em->remove($city);
+        }
+        $em->flush();
+
+        return $this->redirectToRoute('city_list', array(), 301);
     }
 }

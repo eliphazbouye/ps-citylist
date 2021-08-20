@@ -18,3 +18,17 @@ city_list:
   defaults:
     _controller: 'Tntrunkscity\Controller\TntrunkscityController::listAction'
     # _disable_module_prefix: true
+
+city_delete:
+  path: city/delete/{id}
+  methods: [GET]
+  defaults:
+    _controller: 'Tntrunkscity\Controller\TntrunkscityController::deleteAction'
+    # _disable_module_prefix: true
+
+city_edit:
+  path: city/edit
+  methods: [GET, POST]
+  defaults:
+    _controller: 'Tntrunkscity\Controller\TntrunkscityController::editAction'
+    # _disable_module_prefix: true

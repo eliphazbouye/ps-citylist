@@ -10,6 +10,7 @@
 				<th>City Name</th>
 				<th>Country Name</th>
 				<th>Active</th>
+				<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,6 +21,11 @@
 					<td>{{ city.cityName }}</td>
 					<td>{{ city.countryId }}</td>
 					<td>{{ city.active == 1 ? 'Active' : 'Non-Active' }}</td>
+					<td>
+						<a href="{{ path('city_edit', {'id': city.id } ) }}" type="button" class="btn btn-primary">Edit</a>
+						<a href="{{ path('city_delete', {'id': city.id } ) }}" type="button" class="btn btn-danger">Delete</a>
+
+					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
