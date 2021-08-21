@@ -2,6 +2,7 @@
 
 namespace Tntrunkscity\Controller;
 
+use Country;
 use GuzzleHttp\Subscriber\Redirect;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,12 +59,23 @@ class TntrunkscityController extends FrameworkBundleAdminController
 
     public function listAction()
     {
+        $sql = '
+            SELECT `id_country` FROM `' . pSQL(_DB_PREFIX_) . 'city_list`
+        ';
+        $result = \Db::getInstance()->executeS($sql);
+
         $em = $this->getDoctrine()->getManager();
 
         $data = $em->getRepository(CityList::class)->findAll();
 
+        $table_city = array();
+        foreach ($result as $key => $value) {
+            $table_city[$value['id_country']] = \Country::getNameById(1, $value['id_country']);
+        }
+
         return $this->render('@Modules/tntrunkscity/templates/admin/list.html.twig', array(
-            'data' => $data
+            'data' => $data,
+            'table_city' => $table_city
         ));
     }
 

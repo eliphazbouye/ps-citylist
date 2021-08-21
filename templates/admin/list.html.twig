@@ -2,7 +2,7 @@
 
 {% block content %}
 	{% for message in app.flashes('notice') %}
-		<div class="flash-notice">
+		<div class="alert alert-success">
 			{{ message }}
 		</div>
 	{% endfor %}
@@ -18,16 +18,20 @@
 		</thead>
 		<tbody>
 			{% for city in data %}
-
 				<tr>
 					<th scope="row">{{ city.id }}</th>
 					<td>{{ city.cityName }}</td>
-					<td>{{ city.countryId }}</td>
+					<td>
+						{% for city_key,city_name in table_city %}
+							{% if city.countryId == city_key %}
+								{{ city_name }}
+							{% endif %}
+						{% endfor %}
+					</td>
 					<td>{{ city.active == 1 ? 'Active' : 'Non-Active' }}</td>
 					<td>
 						<a href="{{ path('city_update', {'id': city.id } ) }}" type="button" class="btn btn-primary">Edit</a>
 						<a href="{{ path('city_delete', {'id': city.id } ) }}" type="button" class="btn btn-danger">Delete</a>
-
 					</td>
 				</tr>
 			{% endfor %}
