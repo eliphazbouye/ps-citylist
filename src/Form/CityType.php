@@ -1,6 +1,6 @@
 <?php
 
-namespace Tntrunkscity\Form;
+namespace Citylist\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

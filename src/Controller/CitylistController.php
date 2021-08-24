@@ -1,20 +1,20 @@
 <?php
 
-namespace Tntrunkscity\Controller;
+namespace Citylist\Controller;
 
 use Country;
 use GuzzleHttp\Subscriber\Redirect;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
-use Tntrunkscity\Form\CityType;
-use Tntrunkscity\Entity\CityList;
+use Citylist\Form\CityType;
+use Citylist\Entity\CityList;
 
-class TntrunkscityController extends FrameworkBundleAdminController
+class CitylistController extends FrameworkBundleAdminController
 {
     public function demoAction()
     {
-        return new Response('Hello Tntrunks Yeah');
+        return new Response('Hello Citylist Yeah');
         // return $this->render('@Modules/your-module/templates/admin/demo.html.twig');
     }
 
@@ -52,7 +52,7 @@ class TntrunkscityController extends FrameworkBundleAdminController
         }
 
 
-        return $this->render('@Modules/tntrunkscity/templates/admin/create.html.twig', array(
+        return $this->render('@Modules/citylist/templates/admin/create.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -73,7 +73,7 @@ class TntrunkscityController extends FrameworkBundleAdminController
             $table_city[$value['id_country']] = \Country::getNameById(1, $value['id_country']);
         }
 
-        return $this->render('@Modules/tntrunkscity/templates/admin/list.html.twig', array(
+        return $this->render('@Modules/citylist/templates/admin/list.html.twig', array(
             'data' => $data,
             'table_city' => $table_city
         ));
@@ -130,7 +130,7 @@ class TntrunkscityController extends FrameworkBundleAdminController
                 'City updated!'
             );
         }
-        return $this->render('@Modules/tntrunkscity/templates/admin/edit.html.twig', array(
+        return $this->render('@Modules/citylist/templates/admin/edit.html.twig', array(
             'form' => $form->createView()
         ));
     }

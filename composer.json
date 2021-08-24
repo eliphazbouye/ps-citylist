@@ -1,9 +1,9 @@
 {
-    "name": "tntrunks/tntrunkscity",
+    "name": "eliphaz/citylist",
     "description": "Use for display city list on checkout section",
     "autoload": {
       "psr-4": {
-        "Tntrunkscity\\": "src/"
+        "Citylist\\": "src/"
       }
     },
     "config": {

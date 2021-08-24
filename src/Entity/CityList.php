@@ -1,6 +1,6 @@
 <?php
 
-namespace Tntrunkscity\Entity;
+namespace Citylist\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

@@ -3,13 +3,13 @@
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder;
 use PrestaShop\PrestaShop\Core\Module\Exception\ModuleErrorException;
 
-class Tntrunkscity extends Module
+class Citylist extends Module
 {
     public function __construct()
     {
-        $this->name = 'tntrunkscity';
+        $this->name = 'citylist';
         $this->version = '1.0.0';
-        $this->author = 'TnTrunks';
+        $this->author = 'Eliphaz';
         $this->need_instance = 0;
 
         $this->bootstrap = true;
@@ -17,16 +17,16 @@ class Tntrunkscity extends Module
         parent::__construct();
 
         $this->displayName = $this->getTranslator()->trans(
-            'TnTrunks City',
+            'City List',
             [],
-            'Modules.Tntrunkscity.Admin'
+            'Modules.Citylist.Admin'
         );
 
         $this->description =
             $this->getTranslator()->trans(
                 'Add and display city list to address section',
                 [],
-                'Modules.Tntrunkscity.Admin'
+                'Modules.Citylist.Admin'
             );
 
         $this->ps_versions_compliancy = [
@@ -73,8 +73,9 @@ class Tntrunkscity extends Module
 
     private function installSql()
     {
+        $sql = array();
 
-        $sql = '
+        $sql[] = '
             CREATE TABLE `' . pSQL(_DB_PREFIX_) . 'city_list` (
             `id_citylist` INT AUTO_INCREMENT NOT NULL,
             `id_country` INT NOT NULL,
@@ -84,15 +85,39 @@ class Tntrunkscity extends Module
             DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
             ';
 
-        return DB::getInstance()->execute($sql);
+        $sql[] = '
+            CREATE TABLE `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address` (
+            `id_citylist_customer_address` INT AUTO_INCREMENT NOT NULL,
+            `id_address` INT NOT NULL,
+            `id_citylist` INT NOT NULL,
+            PRIMARY KEY(id_citylist_customer_address))
+            DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
+            ';
+
+        foreach ($sql as $query) {
+            if (DB::getInstance()->execute($query) == false) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
 
     private function uninstallSql()
     {
-        $sql = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list`';
+        $sql = array();
 
-        return Db::getInstance()->execute($sql);
+        $sql[] = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list`';
+        $sql[] = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address`';
+
+        foreach ($sql as $query) {
+            if (Db::getInstance()->execute($query) == false) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     //Hook Section

@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Tntrunkscity\\' => array($baseDir . '/src'),
+    'Citylist\\' => array($baseDir . '/src'),
 );
