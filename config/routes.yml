@@ -2,33 +2,33 @@ city_demo:
   path: city/demo
   methods: [GET]
   defaults:
-    _controller: 'Tntrunkscity\Controller\TntrunkscityController::demoAction'
+    _controller: 'Citylist\Controller\CitylistController::demoAction'
     # _disable_module_prefix: true
 
 city_create:
   path: city/create
   methods: [GET, POST]
   defaults:
-    _controller: 'Tntrunkscity\Controller\TntrunkscityController::createAction'
+    _controller: 'Citylist\Controller\CitylistController::createAction'
     # _disable_module_prefix: true
 
 city_list:
   path: city/list
   methods: [GET]
   defaults:
-    _controller: 'Tntrunkscity\Controller\TntrunkscityController::listAction'
+    _controller: 'Citylist\Controller\CitylistController::listAction'
     # _disable_module_prefix: true
 
 city_delete:
   path: city/delete/{id}
   methods: [GET]
   defaults:
-    _controller: 'Tntrunkscity\Controller\TntrunkscityController::deleteAction'
+    _controller: 'Citylist\Controller\CitylistController::deleteAction'
     # _disable_module_prefix: true
 
 city_update:
   path: city/update/{id}
   methods: [GET, POST]
   defaults:
-    _controller: 'Tntrunkscity\Controller\TntrunkscityController::updateAction'
+    _controller: 'Citylist\Controller\CitylistController::updateAction'
     # _disable_module_prefix: true

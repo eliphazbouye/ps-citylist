@@ -2,6 +2,8 @@
 
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder;
 use PrestaShop\PrestaShop\Core\Module\Exception\ModuleErrorException;
+use Citylist\Classe\CitylistCustomerAddress;
+
 
 class Citylist extends Module
 {
@@ -62,6 +64,11 @@ class Citylist extends Module
             $this->registerHook('additionalCustomerAddressFields') &&
             $this->registerHook('actionAfterCreateAddressFormHandler') &&
             $this->registerHook('actionAfterUpdateAddressFormHandler') &&
+            $this->registerHook('actionValidateCustomerAddressForm') &&
+            $this->registerHook('actionObjectAddressAddBefore') &&
+            $this->registerHook('actionObjectAddressAddAfter') &&
+            $this->registerHook('actionObjectAddressUpdateAfter') &&
+            $this->registerHook('actionObjectAddressDeleteAfter') &&
             $this->registerHook('actionFrontControllerSetMedia');
     }
 
@@ -141,7 +148,7 @@ class Citylist extends Module
         $cityList = array_combine($cityKey, $cityValue);
 
         return array((new FormField)
-                ->setName('city')
+                ->setName('id_citylist')
                 ->setType('select')
                 ->setAvailableValues($cityList)
                 ->setRequired(true)
@@ -164,6 +171,35 @@ class Citylist extends Module
     public function HookActionFrontControllerSetMedia()
     {
         //Code...
+    }
+
+    public function HookActionObjectAddressAddAfter($params)
+    {
+        $db = \Db::getInstance();
+        $result = $db->insert('city_list_customer_address', [
+            'id_address' => (int) $params['object']->id,
+            'id_citylist' => (int)$params['object']->id_citylist,
+        ]);
+
+        return $result;
+    }
+
+    public function HookActionObjectAddressUpdateAfter($params)
+    {
+        $db = \Db::getInstance();
+        $result = $db->update('city_list_customer_address', [
+            'id_citylist' => (int)$params['object']->id_citylist,
+        ], 'id_address =' . (int) $params['object']->id, 1);
+
+        return $result;
+    }
+
+    public function HookActionObjectAddressDeleteAfter($params)
+    {
+        $db = \Db::getInstance();
+        $result = $db->delete('city_list_customer_address', 'id_address =' . (int) $params['object']->id);
+
+        return $result;
     }
 
 
