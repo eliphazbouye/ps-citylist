@@ -10,6 +10,10 @@
             document.querySelector('[name="id_citylist"]').required = false;
             document.querySelector('[name="id_citylist"]').parentElement.parentElement.style.display = 'none';
         }
+        
+        //display none for "Optionnel" text
+        document.querySelector('[name="id_citylist"]').parentElement.parentNode.children[2].style.display = 'none';
+
 
         //Updated address form listen event
         prestashop.on(
@@ -26,10 +30,15 @@
         else{
             document.querySelector('[name="id_citylist"]').required = true;
             document.querySelector('[name="id_citylist"]').parentElement.parentElement.style.display = 'block';
+
+            //display none for "Optionnel" text
+            document.querySelector('[name="id_citylist"]').parentElement.parentNode.children[2].style.display = 'none';
+
         }
         // console.log(country.value)
         // console.log(event)
       }
     );
   }
+
 

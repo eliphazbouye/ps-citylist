@@ -136,32 +136,19 @@ class Citylist extends Module
             SELECT * FROM `' . pSQL(_DB_PREFIX_) . 'city_list` WHERE `active` = 1
         ');
 
-        $cityKey = array();
-        $cityValue = array();
-
-        foreach ($cities as $key => $value) {
-            $cityKey[] = $value['id_citylist'];
-            $cityValue[] = $value['city_name'];
-        }
-
-
-
-
-        //Combine city list information on one array
-        $cityList = array_combine($cityKey, $cityValue);
 
         $formField = (new FormField)
             ->setName('id_citylist')
             ->setType('select')
-            ->setAvailableValues($cityList)
-            // ->setRequired(true)
+            ->setRequired(true)
             ->setLabel($this->getTranslator()->trans('City', [], 'Modules.Citylist.Front'));
 
 
         if (Tools::getIsset('id_address')) {
             $address = new Address(Tools::getValue('id_address'));
-            // dump($address->country);
-            // die();
+
+            if ($address->country != 32) $formField->setRequired(false);
+
 
             if (!empty($cities)) {
                 foreach ($cities as $city) {
@@ -176,9 +163,6 @@ class Citylist extends Module
                 }
             }
         }
-
-        // dump($formField);
-        // die();
 
         return array(
             $formField
