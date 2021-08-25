@@ -9,7 +9,15 @@ use Symfony\Component\HttpFoundation\Request;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Citylist\Form\CityType;
 use Citylist\Entity\CityList;
+use PrestaShopBundle\Security\Annotation\AdminSecurity;
 
+use PrestaShopBundle\Security\Annotation\ModuleActivated;
+
+/**
+ * Class CitylistController.
+ *
+ * @ModuleActivated(moduleName="citylist", redirectRoute="city_list")
+ */
 class CitylistController extends FrameworkBundleAdminController
 {
     public function demoAction()
@@ -57,6 +65,11 @@ class CitylistController extends FrameworkBundleAdminController
         ));
     }
 
+
+    /**
+     * @AdminSecurity("is_granted('read', request.get('_legacy_controller'))", message="Access denied.")
+     *
+     */
     public function listAction()
     {
         $sql = '

@@ -1,10 +1,5 @@
 <?php
 
-use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder;
-use PrestaShop\PrestaShop\Core\Module\Exception\ModuleErrorException;
-use Citylist\Classe\CitylistCustomerAddress;
-
-
 class Citylist extends Module
 {
     public function __construct()
@@ -34,6 +29,23 @@ class Citylist extends Module
         $this->ps_versions_compliancy = [
             'min' => '1.7.7.0',
             'max' => _PS_VERSION_,
+        ];
+
+        $tabNames = [];
+        foreach (Language::getLanguages(true) as $lang) {
+            $tabNames[$lang['locale']] = $this->trans('City List', array(), 'Modules.Citylist.Admin', $lang['locale']);
+        }
+
+        $this->tabs = [
+            [
+                'route_name' => 'city_list',
+                'class_name' => 'AdminCityList',
+                'visible' => true,
+                'name' => $tabNames,
+                'parent_class_name' => 'IMPROVE',
+                'wording' => 'City List',
+                'wording_domain' => 'Modules.Citylist.Admin'
+            ],
         ];
     }
 
@@ -126,6 +138,10 @@ class Citylist extends Module
             }
         }
     }
+
+
+
+
 
     //Hook Section
 

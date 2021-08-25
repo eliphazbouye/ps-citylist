@@ -18,6 +18,7 @@ city_list:
   defaults:
     _controller: 'Citylist\Controller\CitylistController::listAction'
     # _disable_module_prefix: true
+    _legacy_controller: AdminCityList
 
 city_delete:
   path: city/delete/{id}
