@@ -1,14 +1,29 @@
+    
+    if (typeof prestashop !== 'undefined') {
 
-if (typeof prestashop !== 'undefined') {
-    prestashop.on(
-      'updatedAddressForm',
-      function (event) {
-        let country = document.querySelector('select.js-country');
-        
-        if(country.value != 32) {
+        //Before when is loaded
+        let countryBefore = document.querySelector('select.js-country');
+
+        console.log(countryBefore.value)
+        //before when address form is loaded
+        if(countryBefore.value != 32) {
             document.querySelector('[name="id_citylist"]').required = false;
             document.querySelector('[name="id_citylist"]').parentElement.parentElement.style.display = 'none';
-        }else {
+        }
+
+        //Updated address form listen event
+        prestashop.on(
+            'updatedAddressForm',
+            function (event) {
+                let countryUpdated = document.querySelector('select.js-country');
+
+                console.log(countryUpdated.value)
+        //updated address form
+        if(countryUpdated.value != 32) {
+            document.querySelector('[name="id_citylist"]').required = false;
+            document.querySelector('[name="id_citylist"]').parentElement.parentElement.style.display = 'none';
+        }
+        else{
             document.querySelector('[name="id_citylist"]').required = true;
             document.querySelector('[name="id_citylist"]').parentElement.parentElement.style.display = 'block';
         }
@@ -17,3 +32,4 @@ if (typeof prestashop !== 'undefined') {
       }
     );
   }
+
