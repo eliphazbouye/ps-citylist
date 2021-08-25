@@ -152,7 +152,7 @@ class Citylist extends Module
                 ->setType('select')
                 ->setAvailableValues($cityList)
                 ->setRequired(true)
-                ->setLabel($this->getTranslator()->trans('Please select a city', [], 'Module.Tntrunkscity.Front'))
+                ->setLabel($this->getTranslator()->trans('City', [], 'Modules.Citylist.Front'))
         );
     }
 
@@ -165,12 +165,18 @@ class Citylist extends Module
 
     public function HookActionAfterUpdateAddressFormHandler($params)
     {
-        //Code...
     }
 
     public function HookActionFrontControllerSetMedia()
     {
-        //Code...
+        $this->context->controller->registerJavascript(
+            'citylist-javascript',
+            $this->_path . 'views/js/citylist.js',
+            [
+                'position' => 'bottom',
+                'priority' => 1000,
+            ]
+        );
     }
 
     public function HookActionObjectAddressAddAfter($params)
@@ -203,6 +209,14 @@ class Citylist extends Module
     }
 
 
+    public function HookActionValidateCustomerAddressForm($params)
+    {
+        Logger::addLog('message');
+        dump($params);
+        die();
+    }
+
+
     // Get address information for update
     private function updateAddress($params)
     {
@@ -216,9 +230,16 @@ class Citylist extends Module
     private function updateCity($city, $addressId)
     {
         try {
-            $address =  new Address($addressId);
-            $address->city = $city;
-            $address->update();
+            // $address =  new Address($addressId);
+            // $address->city = $city;
+            // $address->update();
+
+            $db = \Db::getInstance();
+            $result = $db->update('city_list_customer_address', [
+                'id_citylist' => (int)$city,
+            ], 'id_address =' . (int) $addressId);
+
+            return $result;
         } catch (ReviewerException $e) {
             throw new ModuleErrorException($e);
         }

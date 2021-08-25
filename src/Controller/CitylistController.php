@@ -15,7 +15,7 @@ class CitylistController extends FrameworkBundleAdminController
     public function demoAction()
     {
         return new Response('Hello Citylist Yeah');
-        // return $this->render('@Modules/your-module/templates/admin/demo.html.twig');
+        // return $this->render('@Modules/your-module/views/templates/admin/demo.html.twig');
     }
 
     public function createAction(Request $request)
@@ -52,7 +52,7 @@ class CitylistController extends FrameworkBundleAdminController
         }
 
 
-        return $this->render('@Modules/citylist/templates/admin/create.html.twig', array(
+        return $this->render('@Modules/citylist/views/templates/admin/create.html.twig', array(
             'form' => $form->createView()
         ));
     }
@@ -73,7 +73,7 @@ class CitylistController extends FrameworkBundleAdminController
             $table_city[$value['id_country']] = \Country::getNameById(1, $value['id_country']);
         }
 
-        return $this->render('@Modules/citylist/templates/admin/list.html.twig', array(
+        return $this->render('@Modules/citylist/views/templates/admin/list.html.twig', array(
             'data' => $data,
             'table_city' => $table_city
         ));
@@ -130,7 +130,7 @@ class CitylistController extends FrameworkBundleAdminController
                 'City updated!'
             );
         }
-        return $this->render('@Modules/citylist/templates/admin/edit.html.twig', array(
+        return $this->render('@Modules/citylist/views/templates/admin/edit.html.twig', array(
             'form' => $form->createView()
         ));
     }
