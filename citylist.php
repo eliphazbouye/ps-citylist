@@ -81,13 +81,17 @@ class Citylist extends Module
             $this->registerHook('actionObjectAddressAddAfter') &&
             $this->registerHook('actionObjectAddressUpdateAfter') &&
             $this->registerHook('actionObjectAddressDeleteAfter') &&
+            $this->registerHook('displayPDFInvoice') &&
+            $this->registerHook('displayAdminOrder') &&
+            $this->registerHook('displayOrderConfirmation') &&
             $this->registerHook('actionFrontControllerSetMedia');
     }
 
 
     public function uninstall()
     {
-        return parent::uninstall() && $this->uninstallSql();
+        return parent::uninstall();
+        // && $this->uninstallSql();
     }
 
     private function installSql()
@@ -95,7 +99,7 @@ class Citylist extends Module
         $sql = array();
 
         $sql[] = '
-            CREATE TABLE `' . pSQL(_DB_PREFIX_) . 'city_list` (
+            CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list` (
             `id_citylist` INT AUTO_INCREMENT NOT NULL,
             `id_country` INT NOT NULL,
             `city_name` VARCHAR(64) NOT NULL,
@@ -105,7 +109,7 @@ class Citylist extends Module
             ';
 
         $sql[] = '
-            CREATE TABLE `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address` (
+            CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address` (
             `id_citylist_customer_address` INT AUTO_INCREMENT NOT NULL,
             `id_address` INT DEFAULT NULL,
             `id_citylist` INT DEFAULT NULL,
@@ -145,26 +149,37 @@ class Citylist extends Module
 
     //Hook Section
 
-    public function HookAdditionalCustomerAddressFields($params)
+    public function hookAdditionalCustomerAddressFields($params)
     {
         //Get city from database
         $cities = \Db::getInstance()->executeS('
             SELECT * FROM `' . pSQL(_DB_PREFIX_) . 'city_list` WHERE `active` = 1
         ');
 
+        $cityKey = array();
+        $cityValue = array();
 
+        //get all city for displaying
+        foreach ($cities as $key => $value) {
+            $cityKey[] = $value['id_citylist'];
+            $cityValue[] = $value['city_name'];
+        }
+
+
+        //Combine city list information on one array
+        $cityList = array_combine($cityKey, $cityValue);
+
+
+        //create formfield city
         $formField = (new FormField)
             ->setName('id_citylist')
             ->setType('select')
-            ->setRequired(true)
+            ->setAvailableValues($cityList)
             ->setLabel($this->getTranslator()->trans('City', [], 'Modules.Citylist.Front'));
 
-
+        //if a city already choosed selected by default when user want update
         if (Tools::getIsset('id_address')) {
             $address = new Address(Tools::getValue('id_address'));
-
-            if ($address->country != 32) $formField->setRequired(false);
-
 
             if (!empty($cities)) {
                 foreach ($cities as $city) {
@@ -186,17 +201,11 @@ class Citylist extends Module
     }
 
 
-
-    public function HookActionAfterCreateAddressFormHandler($params)
-    {
-        $this->updateAddress($params);
-    }
-
-    public function HookActionAfterUpdateAddressFormHandler($params)
+    public function hookActionAfterUpdateAddressFormHandler($params)
     {
     }
 
-    public function HookActionFrontControllerSetMedia()
+    public function hookActionFrontControllerSetMedia()
     {
         $this->context->controller->registerJavascript(
             'citylist-javascript',
@@ -208,11 +217,9 @@ class Citylist extends Module
         );
     }
 
-    public function HookActionObjectAddressAddAfter($params)
+    public function hookActionObjectAddressAddAfter($params)
     {
 
-        // dump($params);
-        // die();
         if ($params['object']->id_citylist != null) {
             $db = \Db::getInstance();
             $result = $db->insert('city_list_customer_address', [
@@ -224,7 +231,7 @@ class Citylist extends Module
         }
     }
 
-    public function HookActionObjectAddressUpdateAfter($params)
+    public function hookActionObjectAddressUpdateAfter($params)
     {
         // dump($params);
         // die();
@@ -238,7 +245,7 @@ class Citylist extends Module
         }
     }
 
-    public function HookActionObjectAddressDeleteAfter($params)
+    public function hookActionObjectAddressDeleteAfter($params)
     {
         if ($params['object']->id_citylist != null) {
             $db = \Db::getInstance();
@@ -249,36 +256,38 @@ class Citylist extends Module
     }
 
 
-    public function HookActionValidateCustomerAddressForm($params)
+    public function hookActionValidateCustomerAddressForm($params)
     {
     }
 
-
-    // Get address information for update
-    private function updateAddress($params)
+    public function hookDisplayPDFInvoice($params)
     {
-        $addressId = (int)$params['id'];
-        $city = $params['form_data'];
+        $id_order = $params['object']->id_order;
 
-        $this->updateCity($city, $addressId);
+        $order = new Order($id_order);
+
+        //Get city id
+        $sql = new DbQuery();
+        $sql->select('id_citylist');
+        $sql->from('city_list_customer_address', 'ctl');
+        $sql->where('ctl.id_address =' . $order->id_address_invoice);
+        $id_citylist = Db::getInstance()->getValue($sql);
+
+        //Get city name
+        $sql = new DbQuery();
+        $sql->select('city_name');
+        $sql->from('city_list', 'cl');
+        $sql->where('cl.id_citylist = ' . $id_citylist);
+        $city_name = Db::getInstance()->getValue($sql);
+
+        $this->context->smarty->assign(array(
+            'city_name' => $city_name
+        ));
+        return $this->display(__FILE__, 'views/templates/hook/invoice.tpl');
     }
 
-    //Update address city
-    private function updateCity($city, $addressId)
+    public function hookDisplayAdminOrder($params)
     {
-        // $address =  new Address($addressId);
-        // $address->city = $city;
-        // $address->update();
-
-        Logger::addLog('message');
-        dump($city);
-        die();
-
-        // $db = \Db::getInstance();
-        // $result = $db->update('city_list_customer_address', [
-        //     'id_citylist' => (int)$city,
-        // ], 'id_address =' . (int) $addressId);
-
-        // return $result;
+        return $this->display(__FILE__, 'views/templates/admin/order.tpl');
     }
 }
