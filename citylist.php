@@ -263,6 +263,29 @@ class Citylist extends Module
     public function hookDisplayPDFInvoice($params)
     {
         $id_order = $params['object']->id_order;
+        $city_name = $this->cityName($id_order);
+        if ($city_name) {
+            $this->context->smarty->assign(array(
+                'city_name' => $city_name
+            ));
+            return $this->display(__FILE__, 'views/templates/hook/invoice.tpl');
+        }
+    }
+
+    public function hookDisplayAdminOrder($params)
+    {
+        $id_order = $params['id_order'];
+        $city_name = $this->cityName($id_order);
+        if ($city_name) {
+            $this->context->smarty->assign(array(
+                'city_name' => $city_name
+            ));
+            return $this->display(__FILE__, 'views/templates/admin/order.tpl');
+        }
+    }
+
+    private function cityName($id_order)
+    {
 
         $order = new Order($id_order);
 
@@ -274,20 +297,12 @@ class Citylist extends Module
         $id_citylist = Db::getInstance()->getValue($sql);
 
         //Get city name
-        $sql = new DbQuery();
-        $sql->select('city_name');
-        $sql->from('city_list', 'cl');
-        $sql->where('cl.id_citylist = ' . $id_citylist);
-        $city_name = Db::getInstance()->getValue($sql);
-
-        $this->context->smarty->assign(array(
-            'city_name' => $city_name
-        ));
-        return $this->display(__FILE__, 'views/templates/hook/invoice.tpl');
-    }
-
-    public function hookDisplayAdminOrder($params)
-    {
-        return $this->display(__FILE__, 'views/templates/admin/order.tpl');
+        if ($id_citylist) {
+            $sql = new DbQuery();
+            $sql->select('city_name');
+            $sql->from('city_list', 'cl');
+            $sql->where('cl.id_citylist = ' . $id_citylist);
+            return Db::getInstance()->getValue($sql);
+        }
     }
 }
