@@ -10,7 +10,7 @@ city_create:
   methods: [GET, POST]
   defaults:
     _controller: 'Citylist\Controller\CitylistController::createAction'
-    # _disable_module_prefix: true
+    _disable_module_prefix: true
 
 city_list:
   path: city/list
