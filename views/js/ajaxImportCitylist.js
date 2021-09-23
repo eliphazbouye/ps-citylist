@@ -3,13 +3,11 @@ $(document).ready(function() {
 
     $.getJSON(ajax_url, (data) => {
         try {
-            // console.log('data '  , data);
             data.cities.map((result) => {
                 console.log(result.city_name)
             })
             } catch (e) {
             console.error(e);
-            // expected output: "Parameter is not a number!"
             }
     })
     
