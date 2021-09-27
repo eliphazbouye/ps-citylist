@@ -9,7 +9,6 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>#</th>
 				<th>City Name</th>
 				<th>Zone ID</th>
 				<th>Active</th>
@@ -19,20 +18,20 @@
 		<tbody>
 			{% for cityShipping in data %}
 				<tr>
-					<th scope="row">{{ cityShipping.id }}</th>
+					<th scope="row">{{ cityShipping.getCityList.id }}</th>
 					<td>{{ cityShipping.getCityList.getCityName }}</td>
 					<td>
 						{{cityShipping.getZoneId}}
 					</td>
 					<td>{{ cityShipping.active == 1 ? 'Active' : 'Non-Active' }}</td>
 					<td>
-						<a href="{{ path('city_shipping_update', {'id': cityShipping.id } ) }}" type="button" class="btn btn-primary">Edit</a>
-						<a href="{{ path('city_shipping_delete', {'id': cityShipping.id } ) }}" type="button" class="btn btn-danger">Delete</a>
+						<a href="{{ path('city_shipping_update', {'id': cityShipping.getCityList.id } ) }}" type="button" class="btn btn-primary">Edit</a>
+						<a href="{{ path('city_shipping_delete', {'id': cityShipping.getCityList.id } ) }}" type="button" class="btn btn-danger">Delete</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</tr>
 
-	<a href="{{ path('city_create') }}" type="button" class="btn btn-outline-primary">Add New City</a>
+	<a href="{{ path('city_shipping_create') }}" type="button" class="btn btn-outline-primary">Add New City Shipping</a>
 </tbody></table>{% endblock %}

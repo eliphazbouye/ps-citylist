@@ -65,7 +65,7 @@ city_shipping_list:
   defaults:
     _controller: 'Citylist\Controller\CityListShippingController::listAction'
     _disable_module_prefix: true
-    # _legacy_controller: AdminCityList
+    _legacy_controller: AdminCityListShipping
 
 
 city_shipping_delete:

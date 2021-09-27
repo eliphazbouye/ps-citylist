@@ -15,13 +15,13 @@ namespace Citylist\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class CityListRepository extends EntityRepository
+class CityListShippingRepository extends EntityRepository
 {
-    public function getCitiesInformation()
+    public function getShippings()
     {
-        $cl = $this->createQueryBuilder('c')
-        ->addSelect('c')
-        ->andWhere('c.active = 1');
+        $cl = $this->createQueryBuilder('cls')
+        ->addSelect('cls')
+        ->andWhere('cls.active = 1');
 
         $cities = $cl->getQuery()->getResult();
 

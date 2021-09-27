@@ -44,7 +44,7 @@ class CityListShippingController extends FrameworkBundleAdminController
                 'City Shipping created successfully'
             );
 
-            // return $this->redirectToRoute('city_shipping_list', [], 301);
+            return $this->redirectToRoute('city_shipping_list', [], 301);
         }
 
 
@@ -111,7 +111,7 @@ class CityListShippingController extends FrameworkBundleAdminController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $cityListShipping = $em->getRepository(CityListShipping::class)->findOneBy(['id' => $id]);
+        $cityListShipping = $em->getRepository(CityListShipping::class)->findOneBy(array('cityList' => $id));
 
         if($cityListShipping) {
             $em->remove($cityListShipping);

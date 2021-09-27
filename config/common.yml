@@ -1,0 +1,15 @@
+services:
+  _defaults:
+      public: true
+
+  prestarchitect.citylist.repository.city_list_repository:
+    class: Citylist\Repository\CityListRepository
+    factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
+    arguments:
+      - Citylist\Entity\CityList
+  
+  prestarchitect.citylist.repository.city_list_shipping_repository:
+    class: Citylist\Repository\CityListShippingRepository
+    factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
+    arguments:
+      - Citylist\Entity\CityListShipping

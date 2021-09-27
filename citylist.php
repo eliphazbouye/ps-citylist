@@ -33,19 +33,35 @@ class Citylist extends Module
             'max' => _PS_VERSION_,
         ];
 
-        $tabNames = [];
-        foreach (Language::getLanguages(true) as $lang) {
-            $tabNames[$lang['locale']] = $this->trans('City List', array(), 'Modules.Citylist.Admin', $lang['locale']);
-        }
+        // $tabNames = [];
+        // foreach (Language::getLanguages(true) as $lang) {
+        //     $tabNames[$lang['locale']] = $this->trans('City List', array(), 'Modules.Citylist.Admin', $lang['locale']);
+        //     $tabNames[$lang['locale']] = $this->trans('City Shipping', array(), 'Modules.Citylist.Admin', $lang['locale']);
+        // }
 
         $this->tabs = [
             [
+                    'name' => [
+                        'en' => 'City List', // Fallback value
+                        'fr' => 'City List',
+                ],
                 'route_name' => 'city_list',
                 'class_name' => 'AdminCityList',
                 'visible' => true,
-                'name' => $tabNames,
                 'parent_class_name' => 'IMPROVE',
                 'wording' => 'City List',
+                'wording_domain' => 'Modules.Citylist.Admin'
+            ],
+            [
+                    'name' => [
+                        'en' => 'City Shipping', // Fallback value
+                        'fr' => 'City Shipping',
+                ],
+                'route_name' => 'city_shipping_list',
+                'class_name' => 'AdminCityListShipping',
+                'visible' => true,
+                'parent_class_name' => 'IMPROVE',
+                'wording' => 'City Shipping',
                 'wording_domain' => 'Modules.Citylist.Admin'
             ],
         ];
@@ -126,11 +142,10 @@ class Citylist extends Module
 
         $sqlShipping = '
             CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_shipping` (
-            `id_citylist_shipping` INT AUTO_INCREMENT NOT NULL,
-            `id_citylist` INT DEFAULT NULL,
+            `id_citylist` INT NOT NULL,
             `id_zone` INT NOT NULL,
             `active` TINYINT(1) NOT NULL,
-            PRIMARY KEY(id_citylist_shipping))
+            PRIMARY KEY(id_citylist))
             DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
             ';
 
@@ -340,13 +355,20 @@ class Citylist extends Module
 	    $address = new Address($params['id_address']);
 
          //Identifiant de la zone géographique clic and collect
-
-         
+        
+        $repository = $this->get('prestarchitect.citylist.repository.city_list_shipping_repository');
+        $cities = $repository->getShippings();
          $id_zone = 9;
 
-         if ($address->city) {
-			return $id_zone; //L'important est de retourner la zone ici
-         }
+         
+         foreach($cities as $city) {
+            //  dump($address->city);
+            //  dump($city->getCityList()->getCityName());
+             if ($address->city == $city->getCityList()->getCityName()) {
+             	 return $city->getZoneId(); //L'important est de retourner la zone ici
+              }
+            // die();
+        }
 
     }
 }

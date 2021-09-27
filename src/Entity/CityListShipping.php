@@ -7,20 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Citylist\Repository\CityListShippingRepository")
  */
 class CityListShipping
 {
     /**
      * @var int
      * @ORM\Id
-     * @ORM\Column(name="id_citylist_shipping", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var int
      * @ORM\ManyToOne(targetEntity="CityList")
      * @ORM\JoinColumn(name="id_citylist", referencedColumnName="id_citylist", nullable=false)
      */
@@ -41,14 +34,6 @@ class CityListShipping
     private $active;
 
 
-
-    /**
-     * @return int id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return cityList
