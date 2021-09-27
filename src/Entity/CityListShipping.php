@@ -13,8 +13,10 @@ class CityListShipping
 {
     /**
      * @var int
-     *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="CityList")
+     * @ORM\JoinColumn(name="id_citylist", referencedColumnName="id_citylist", nullable=false)
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $cityList;
 

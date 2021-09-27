@@ -102,9 +102,8 @@ class Citylist extends Module
 
     private function installSql()
     {
-        $sql = array();
 
-        $sql[] = '
+        $sqlCitylist = '
             CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list` (
             `id_citylist` INT AUTO_INCREMENT NOT NULL,
             `id_country` INT NOT NULL,
@@ -114,18 +113,18 @@ class Citylist extends Module
             DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
             ';
 
-        $sql[] = '
-            CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address` (
-            `id_citylist_customer_address` INT AUTO_INCREMENT NOT NULL,
-            `id_address` INT DEFAULT NULL,
-            `id_citylist` INT DEFAULT NULL,
-            PRIMARY KEY(id_citylist_customer_address))
-            DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
-            ';
+        // $sql[] = '
+        //     CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address` (
+        //     `id_citylist_customer_address` INT AUTO_INCREMENT NOT NULL,
+        //     `id_address` INT DEFAULT NULL,
+        //     `id_citylist` INT DEFAULT NULL,
+        //     PRIMARY KEY(id_citylist_customer_address))
+        //     DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
+        //     ';
 
         //Create a table for save shipping zone and citylist id
 
-        $sql[] = '
+        $sqlShipping = '
             CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_shipping` (
             `id_citylist` INT DEFAULT NULL,
             `id_zone` INT NOT NULL,
@@ -134,13 +133,9 @@ class Citylist extends Module
             DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
             ';
 
-        foreach ($sql as $query) {
-            if (DB::getInstance()->execute($query) == false) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+            return (
+                DB::getInstance()->execute($sqlCitylist) 
+            && DB::getInstance()->execute($sqlShipping));
     }
 
 
