@@ -2,12 +2,11 @@
 
 namespace Citylist\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Citylist\Repository\CityListRepository")
  */
 class CityList
 {

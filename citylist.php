@@ -2,6 +2,8 @@
 
 class Citylist extends Module
 {
+
+
     public function __construct()
     {
         $this->name = 'citylist';
@@ -50,6 +52,8 @@ class Citylist extends Module
     }
 
 
+
+
     /**
      * This function is required in order to make module compatible with new translation system.
      *
@@ -85,14 +89,15 @@ class Citylist extends Module
             $this->registerHook('displayAdminOrder') &&
             $this->registerHook('displayOrderConfirmation') &&
             $this->registerHook('displayBeforeBodyClosingTag') &&
+            $this->registerHook('actionGetIDZoneByAddressID') &&
             $this->registerHook('actionFrontControllerSetMedia');
     }
 
 
     public function uninstall()
     {
-        return parent::uninstall();
-        // && $this->uninstallSql();
+        return parent::uninstall()
+        && $this->uninstallSql();
     }
 
     private function installSql()
@@ -119,7 +124,7 @@ class Citylist extends Module
             ';
 
         //Create a table for save shipping zone and citylist id
-        
+
         $sql[] = '
             CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_shipping` (
             `id_citylist` INT DEFAULT NULL,
@@ -326,6 +331,7 @@ class Citylist extends Module
         }
     }
 
+
     public function hookDisplayBeforeBodyClosingTag()
     {
         $link_to_fo_ajax = Context::getContext()->link->getModuleLink($this->name, 'cities') ;
@@ -335,5 +341,20 @@ class Citylist extends Module
                 'ajax_link' => $link_to_fo_ajax
             ));
         return $this->display(__FILE__, 'views/templates/front/footer.tpl');
+    }
+
+
+    public function hookActionGetIDZoneByAddressID($params)
+    {
+        //Chargement de l'objet adresse à partir de son identifiant
+	    $address = new Address($params['id_address']);
+
+         //Identifiant de la zone géographique clic and collect
+         $id_zone = 9;
+
+         if ($address->city) {
+			return $id_zone; //L'important est de retourner la zone ici
+         }
+
     }
 }
