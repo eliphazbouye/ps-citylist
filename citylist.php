@@ -126,10 +126,11 @@ class Citylist extends Module
 
         $sqlShipping = '
             CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_shipping` (
+            `id_citylist_shipping` INT AUTO_INCREMENT NOT NULL,
             `id_citylist` INT DEFAULT NULL,
             `id_zone` INT NOT NULL,
             `active` TINYINT(1) NOT NULL,
-            PRIMARY KEY(id_citylist))
+            PRIMARY KEY(id_citylist_shipping))
             DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
             ';
 
@@ -143,16 +144,10 @@ class Citylist extends Module
     {
         $sql = array();
 
-        $sql[] = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list`';
-        $sql[] = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_customer_address`';
+        $sqlCitylist = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list`';
+        $sqlShipping = 'DROP TABLE IF EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_shipping`';
 
-        foreach ($sql as $query) {
-            if (Db::getInstance()->execute($query) == false) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+            return (Db::getInstance()->execute($sqlCitylist) && Db::getInstance()->execute($sqlShipping) );
     }
 
 
@@ -345,6 +340,8 @@ class Citylist extends Module
 	    $address = new Address($params['id_address']);
 
          //Identifiant de la zone géographique clic and collect
+
+         
          $id_zone = 9;
 
          if ($address->city) {
