@@ -2,8 +2,6 @@
 
 namespace Citylist\Controller;
 
-use Country;
-use GuzzleHttp\Subscriber\Redirect;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
@@ -72,6 +70,7 @@ class CitylistController extends FrameworkBundleAdminController
      */
     public function listAction()
     {
+        //TODO refactoring
         $sql = '
             SELECT `id_country` FROM `' . pSQL(_DB_PREFIX_) . 'city_list`
         ';

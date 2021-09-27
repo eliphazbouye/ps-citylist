@@ -50,3 +50,27 @@ city_shipping_create:
   defaults:
     _controller: 'Citylist\Controller\CityListShippingController::createAction'
     _disable_module_prefix: true
+
+
+city_shipping_update:
+  path: city/shipping/update/{id}
+  methods: [GET, POST]
+  defaults:
+    _controller: 'Citylist\Controller\CityListShippingController::updateAction'
+
+
+city_shipping_list:
+  path: city/shipping/list
+  methods: [GET]
+  defaults:
+    _controller: 'Citylist\Controller\CityListShippingController::listAction'
+    _disable_module_prefix: true
+    # _legacy_controller: AdminCityList
+
+
+city_shipping_delete:
+  path: city/shipping/delete/{id}
+  methods: [GET]
+  defaults:
+    _controller: 'Citylist\Controller\CityListShippingController::deleteAction'
+    # _disable_module_prefix: true
