@@ -3,6 +3,7 @@
 namespace Citylist\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Citylist\Entity\CityListShipping;
 
 /**
  * @ORM\Table()
@@ -40,6 +41,10 @@ class CityList
      */
     private $active;
 
+    /**
+     * @ORM\OneToOne(targetEntity="CityListShipping", mappedBy="cityList")
+     */
+    private $cityListShipping;
 
 
     /**
@@ -122,5 +127,13 @@ class CityList
             'city_name' => $this->getCityName(),
             'active' => $this->getActive(),
         ];
+    }
+
+    /**
+     * Get the value of cityListShipping
+     */ 
+    public function getCityListShipping()
+    {
+        return $this->cityListShipping;
     }
 }

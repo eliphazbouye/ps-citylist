@@ -142,10 +142,11 @@ class Citylist extends Module
 
         $sqlShipping = '
             CREATE TABLE IF NOT EXISTS `' . pSQL(_DB_PREFIX_) . 'city_list_shipping` (
+            `id_city_list_shipping` INT AUTO_INCREMENT NOT NULL,
             `id_citylist` INT NOT NULL,
             `id_zone` INT NOT NULL,
             `active` TINYINT(1) NOT NULL,
-            PRIMARY KEY(id_citylist))
+            PRIMARY KEY(id_city_list_shipping))
             DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE =' . pSQL(_MYSQL_ENGINE_) . ';
             ';
 

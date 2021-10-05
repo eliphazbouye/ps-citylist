@@ -1,20 +1,32 @@
 <?php
 
-use Citylist\Entity\CityList;
 namespace Citylist\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+use Citylist\Entity\CityList;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
- * @ORM\Table()
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="id_citylist", columns={"id_citylist"})})
  * @ORM\Entity(repositoryClass="Citylist\Repository\CityListShippingRepository")
  */
 class CityListShipping
 {
+
     /**
      * @var int
+     *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="CityList")
+     * @ORM\Column(name="id_city_list_shipping", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**
+     * @var int
+     * @ORM\OneToOne(targetEntity="CityList")
      * @ORM\JoinColumn(name="id_citylist", referencedColumnName="id_citylist", nullable=false)
      */
     private $cityList;
@@ -32,8 +44,11 @@ class CityListShipping
      * @ORM\Column(name="active", type="boolean")
      */
     private $active;
-
-
+        
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return cityList
