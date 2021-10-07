@@ -18,15 +18,15 @@
 		<tbody>
 			{% for cityShipping in data %}
 				<tr>
-					<th scope="row">{{ cityShipping.getCityList.id }}</th>
+					{# <th scope="row">{{ cityShipping.getCityList.id }}</th> #}
 					<td>{{ cityShipping.getCityList.getCityName }}</td>
 					<td>
 						{{cityShipping.getZoneId}}
 					</td>
 					<td>{{ cityShipping.active == 1 ? 'Active' : 'Non-Active' }}</td>
 					<td>
-						<a href="{{ path('city_shipping_update', {'id': cityShipping.getCityList.id } ) }}" type="button" class="btn btn-primary">Edit</a>
-						<a href="{{ path('city_shipping_delete', {'id': cityShipping.getCityList.id } ) }}" type="button" class="btn btn-danger">Delete</a>
+						<a href="{{ path('city_shipping_update', {'id': cityShipping.id } ) }}" type="button" class="btn btn-primary">Edit</a>
+						<a href="{{ path('city_shipping_delete', {'id': cityShipping.id } ) }}" type="button" class="btn btn-danger">Delete</a>
 					</td>
 				</tr>
 			{% endfor %}

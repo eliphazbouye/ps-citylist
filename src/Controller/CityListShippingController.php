@@ -72,25 +72,20 @@ class CityListShippingController extends FrameworkBundleAdminController
         if($id == null){
             return null;
         }
-
+        
         $em = $this->getDoctrine()->getManager();
         $cityListShippingForUpdate = $em->getRepository(CityListShipping::class)
-        ->find($id);
-
+            ->find($id);
 
         $form = $this->createForm(ShippingType::class,$cityListShippingForUpdate);
         $form->handleRequest($request);
 
-
-        if(
-            $form->isSubmitted() && 
-            $form->isValid()
-        ) {
+        if($form->isSubmitted() && $form->isValid()) {
+            
             $cityListShippingForUpdate->setCityList($form->get('cityList')->getData());
             $cityListShippingForUpdate->setZoneId($form->get('zoneId')->getData());
             $cityListShippingForUpdate->setActive($form->get('active')->getData());
             
-
             $em->flush();
 
             $this->addFlash(
@@ -111,7 +106,7 @@ class CityListShippingController extends FrameworkBundleAdminController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $cityListShipping = $em->getRepository(CityListShipping::class)->findOneBy(array('cityList' => $id));
+        $cityListShipping = $em->getRepository(CityListShipping::class)->find($id);
 
         if($cityListShipping) {
             $em->remove($cityListShipping);

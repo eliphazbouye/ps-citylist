@@ -27,4 +27,12 @@ class CityListShippingRepository extends EntityRepository
 
         return $cities;
     }
+
+    public function findById($id)
+    {   
+        $em = $this->getEntityManager();
+        return $em->createQuery('SELECT cls FROM Citylist\Entity\CityListShipping cls WHERE cls.id = :id')
+        ->setParameter('id', $id)
+        ->getResult();
+    }
 }
