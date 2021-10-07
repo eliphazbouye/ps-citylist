@@ -19,12 +19,9 @@ class CityListRepository extends EntityRepository
 {
     public function getCitiesInformation()
     {
-        $cl = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
         ->addSelect('c')
-        ->andWhere('c.active = 1');
-
-        $cities = $cl->getQuery()->getResult();
-
-        return $cities;
+        ->andWhere('c.active = 1')
+        ->getQuery()->getResult();
     }
 }

@@ -9,5 +9,9 @@
     "config": {
         "prepend-autoloader": false
     },
-    "type": "prestashop-module"
+    "type": "prestashop-module",
+    "require": {
+        "symfony/validator": "^5.3",
+        "doctrine/annotations": "^1.13"
+    }
 }

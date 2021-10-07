@@ -42,12 +42,6 @@ class CityList
     private $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="CityListShipping", mappedBy="cityList")
-     */
-    private $cityListShipping;
-
-
-    /**
      * @return int
      */
     public function getId()
@@ -129,11 +123,4 @@ class CityList
         ];
     }
 
-    /**
-     * Get the value of cityListShipping
-     */ 
-    public function getCityListShipping()
-    {
-        return $this->cityListShipping;
-    }
 }
