@@ -2,13 +2,11 @@
 
 class Citylist extends Module
 {
-
-
     public function __construct()
     {
         $this->name = 'citylist';
         $this->version = '1.0.0';
-        $this->author = 'Eliphaz';
+        $this->author = 'Elxphaz';
         $this->need_instance = 0;
 
         $this->bootstrap = true;
