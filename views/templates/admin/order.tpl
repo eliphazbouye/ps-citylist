@@ -43,7 +43,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="option_value center small">
-                                            {$city_name|escape:'htmlall':'UTF-8'}
+                                            {$city_name|escape:'htmlall':'UTF-8'|@ucfirst}
                                         </td>
                                     </tr>
                                 </tbody>

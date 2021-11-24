@@ -20,11 +20,11 @@
 			{% for city in data %}
 				<tr>
 					<th scope="row">{{ city.id }}</th>
-					<td>{{ city.cityName }}</td>
+					<td>{{ city.cityName|capitalize }}</td>
 					<td>
-						{% for city_key,city_name in table_city %}
-							{% if city.countryId == city_key %}
-								{{ city_name }}
+						{% for country_key,country_name in table_city %}
+							{% if city.countryId == country_key %}
+								{{ country_name|capitalize }}
 							{% endif %}
 						{% endfor %}
 					</td>

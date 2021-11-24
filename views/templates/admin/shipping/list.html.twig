@@ -19,7 +19,7 @@
 			{% for cityShipping in data %}
 				<tr>
 					{# <th scope="row">{{ cityShipping.getCityList.id }}</th> #}
-					<td>{{ cityShipping.getCityList.getCityName }}</td>
+					<td>{{ cityShipping.getCityList.getCityName|capitalize }}</td>
 					<td>
 						{{cityShipping.getZoneId}}
 					</td>
