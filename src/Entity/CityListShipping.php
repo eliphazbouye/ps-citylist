@@ -8,10 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Unique;
 
+
+
 /**
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Citylist\Repository\CityListShippingRepository")
- * @UniqueEntity(fields={"cityList"}, message="Error try another city")
  */
 class CityListShipping
 {

@@ -226,6 +226,8 @@ class Citylist extends Module
     // {
     // }
 
+
+    //Initialise and add asset ressource for the module
     public function hookActionFrontControllerSetMedia()
     {
         $this->context->controller->registerJavascript(
@@ -289,6 +291,8 @@ class Citylist extends Module
     // {
     // }
 
+
+    //This hook is used for add information of city list and shipping to the pdf invoice
     public function hookDisplayPDFInvoice($params)
     {
         $id_order = $params['object']->id_order;
@@ -317,12 +321,13 @@ class Citylist extends Module
     {
 
         $order = new Order($id_order);
+        $city_address = new Address($order->id_address_delivery);
 
         //Get city id
         $sql = new DbQuery();
         $sql->select('id_citylist');
-        $sql->from('city_list_customer_address', 'ctl');
-        $sql->where('ctl.id_address =' . $order->id_address_invoice);
+        $sql->from('city_list');
+        $sql->where("city_name = '$city_address->city'");
         $id_citylist = Db::getInstance()->getValue($sql);
 
         //Get city name
@@ -366,7 +371,6 @@ class Citylist extends Module
              if ($address->city == $city->getCityList()->getCityName()) {
              	 return $city->getZoneId(); //L'important est de retourner la zone ici
               }
-            // die();
         }
 
     }
